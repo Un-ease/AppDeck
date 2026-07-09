@@ -1,0 +1,73 @@
+#!/bin/bash
+
+set -euo pipefail
+
+CONFIG_NAME="tui"
+CONFIG_PATH="$HOME/.config/quickshell/$CONFIG_NAME/shell.qml"
+
+is_running() {
+  qs list --all 2>/dev/null | grep -Fq "Config path: $CONFIG_PATH"
+}
+
+wait_until_running() {
+  for _ in {1..30}; do
+    is_running && return 0
+    sleep 0.1
+  done
+  return 1
+}
+
+wait_until_stopped() {
+  for _ in {1..30}; do
+    is_running || return 0
+    sleep 0.1
+  done
+  return 1
+}
+
+start_shell() {
+  is_running && return 0
+  setsid qs -n -d -c "$CONFIG_NAME" >/dev/null 2>&1 < /dev/null &
+  wait_until_running
+}
+
+stop_shell() {
+  is_running || return 0
+  qs kill -c "$CONFIG_NAME" >/dev/null
+  wait_until_stopped
+}
+
+case "${1:-status}" in
+  start)
+    start_shell
+    ;;
+  stop)
+    stop_shell
+    ;;
+  restart)
+    stop_shell
+    start_shell
+    ;;
+  toggle)
+    start_shell
+    qs -c "$CONFIG_NAME" ipc call command toggle
+    ;;
+  close)
+    is_running && qs -c "$CONFIG_NAME" ipc call command close
+    ;;
+  status)
+    if is_running; then
+      echo "Omarchy TUI shell is running"
+    else
+      echo "Omarchy TUI shell is stopped"
+      exit 1
+    fi
+    ;;
+  log)
+    exec qs log -c "$CONFIG_NAME"
+    ;;
+  *)
+    echo "Usage: omarchy-tui-shell {start|stop|restart|toggle|close|status|log}" >&2
+    exit 2
+    ;;
+esac
