@@ -4,7 +4,9 @@ An immersive, tactile 3D playing-card fanned application launcher built on **Qui
 
 AppDeck renders your installed desktop applications as a hand of Bicycle-style playing cards fanned out at the bottom of the screen. It features rich physics-based mouse tracking, interactive 3D flips, and advanced performance optimizations.
 
-![AppDeck Preview](tui/components/dog_card_back.png)
+<p align="center">
+  <video src="Demo.mp4" width="100%" style="max-width: 800px;" controls autoplay loop muted></video>
+</p>
 
 ## Features
 
