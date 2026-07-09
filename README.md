@@ -25,7 +25,7 @@ AppDeck renders your installed desktop applications as a hand of Bicycle-style p
 ### Install Steps
 1. Clone the repository:
    ```bash
-   git clone https://github.com/<your-username>/AppDeck.git
+   git clone https://github.com/Un-ease/AppDeck.git
    cd AppDeck
    ```
 2. Run the installer:
@@ -41,12 +41,6 @@ Add the following bindings to your `~/.config/hypr/bindings.conf` or main config
 # Toggle the launcher modal overlay
 bindd = SUPER, SPACE, Command surface, exec, omarchy-tui-shell toggle
 ```
-
-### GNOME Setup
-Create a custom keyboard shortcut mapping in Settings:
-- **Name**: App Launcher
-- **Command**: `omarchy-tui-shell toggle`
-- **Shortcut**: `Super + Space` (or preferred binding)
 
 ## License
 MIT License
